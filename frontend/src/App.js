@@ -8,8 +8,7 @@ function App() {
 
  
   const API_URL = 'https://quote-app-agt8.onrender.com/api/quote';
-
-  const fetchQuote = async () => {
+const fetchQuote = async () => {
     setLoading(true);
     try {
       const response = await fetch(API_URL);
@@ -34,26 +33,24 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Quote of the Day</h1>
+      <h1>Quote of the Day</h1>
+      
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p className="error">{error}</p>
+      ) : (
         <div className="quote-container">
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p className="error">{error}</p>
-          ) : (
-            <>
-              <blockquote>
-                <p>"{quote.text}"</p>
-                <footer>— {quote.author}</footer>
-              </blockquote>
-            </>
-          )}
+          <blockquote>
+            <p>{quote.text}</p>
+            {quote.author && <footer>— {quote.author}</footer>}
+          </blockquote>
         </div>
-        <button onClick={fetchQuote} disabled={loading}>
-          {loading ? 'Loading...' : 'New Quote'}
-        </button>
-      </header>
+      )}
+      
+      <button onClick={fetchQuote} disabled={loading}>
+        {loading ? 'Loading...' : 'Get Quote'}
+      </button>
     </div>
   );
 }
